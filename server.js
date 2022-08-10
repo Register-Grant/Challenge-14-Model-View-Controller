@@ -9,7 +9,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//app.get('/', (req, res) => res.send('Hello stupid world'));
+app.get('/', (req, res) => res.send('Hello stupid world'));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 

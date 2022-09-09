@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
             "comment_text",
             "post_id",
             "user_id",
-            "created_at",
+            "date_created",
           ],
           include: {
             model: User,
@@ -58,7 +58,7 @@ router.get("/:id", async (req, res) => {
             "comment_text",
             "post_id",
             "user_id",
-            "created_at",
+            "date_created",
           ],
           include: {
             model: User,

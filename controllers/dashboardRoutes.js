@@ -1,14 +1,11 @@
-
-
 const router = require("express").Router();
-const sequelize = require("../config/connection");
-const { Post, User, Comment } = require("../models");
+const { User, BlogPost, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
   console.log(req.session);
   try {
-    const dbPostData = await Post.findAll({
+    const dbPostData = await BlogPost.findAll({
       where: {
         user_id: req.session.user_id,
       },
@@ -46,7 +43,7 @@ router.get("/", async (req, res) => {
 
 router.get("/edit/:id", withAuth, async (req, res) => {
   try {
-    const dbPostData = await Post.findOne({
+    const dbPostData = await BlogPost.findOne({
       where: {
         id: req.params.id,
       },

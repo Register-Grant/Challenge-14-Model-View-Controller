@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 router.get("/", async (req, res) => {
   try {
-    const dbPostData = await Post.findAll({
+    const dbPostData = await BlogPost.findAll({
       attributes: ["id", "title", "content", "created_at"],
       include: [
         {

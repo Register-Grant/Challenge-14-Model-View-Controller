@@ -1,12 +1,12 @@
-const { BlogPost } = require('../models');
+// const { BlogPost } = require('../models');
 
-const blogPostData = [{
-        title: 'Do I Know How To Code Now?',
-        content: 'Nope',
-        date_created: 1471856624000
-    },
-];
+// const blogPostData = [{
+//         title: 'Do I Know How To Code Now?',
+//         content: 'Nope',
+//         date_created: 1471856624000
+//     },
+// ];
 
-const seeBlogPost = () => BlogPost.bulkCreate(blogPostData);
+// const seeBlogPost = () => BlogPost.bulkCreate(blogPostData);
 
-module.exports = seedBlogPost;
+// module.exports = seedBlogPost;

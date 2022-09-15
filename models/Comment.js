@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-const Connection = require("../config/connection");
+const sequelizeConnection = require("../config/sequelizeConnection");
 
-const Comment = Connection.define(
+const Comment = sequelizeConnection.define(
   "comment",
   {
     id: {
@@ -35,7 +35,7 @@ const Comment = Connection.define(
     },
   },
   {
-    sequelize: Connection,
+    sequelize: sequelizeConnection,
     timestamps: true,
     freezeTableName: true,
     underscored: true,

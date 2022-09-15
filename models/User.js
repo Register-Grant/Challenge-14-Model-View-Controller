@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const Connection = require("../config/connection");
+const sequelizeConnection = require("../config/sequelizeConnection");
 const bcrypt = require("bcrypt");
 
-const User = Connection.define(
+const User = sequelizeConnection.define(
   "user",
   {
     id: {
@@ -29,7 +29,7 @@ const User = Connection.define(
     },
   },
   {
-    sequelize: Connection,
+    sequelize: sequelizeConnection,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
@@ -38,6 +38,7 @@ const User = Connection.define(
 );
 
 User.beforeCreate(async (user) => {
+  console.log('intercepted data: ', user);
   user.password = await bcrypt.hash(user.password, 10);
 });
 

@@ -3,13 +3,25 @@ const { User, BlogPost, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
+  try {
+    const dbPostData = await BlogPost.findAll({
+      attributes: ["id", "title", "content", "date_created"],
+    })
+  res.render("dashboard", { blogpost })
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/", async (req, res) => {
   console.log(req.session);
   try {
     const dbPostData = await BlogPost.findAll({
       where: {
         user_id: req.session.user_id,
       },
-      attributes: ["id", "title", "content", "created_at"],
+      attributes: ["id", "title", "content", "date_created"],
       include: [
         {
           model: Comment,
@@ -18,7 +30,7 @@ router.get("/", async (req, res) => {
             "comment_text",
             "post_id",
             "user_id",
-            "created_at",
+            "date_created",
           ],
           include: {
             model: User,
@@ -47,7 +59,7 @@ router.get("/edit/:id", withAuth, async (req, res) => {
       where: {
         id: req.params.id,
       },
-      attributes: ["id", "title", "content", "created_at"],
+      attributes: ["id", "title", "content", "date_created"],
       include: [
         {
           model: User,
@@ -60,7 +72,7 @@ router.get("/edit/:id", withAuth, async (req, res) => {
             "comment_text",
             "post_id",
             "user_id",
-            "created_at",
+            "date_created",
           ],
           include: {
             model: User,

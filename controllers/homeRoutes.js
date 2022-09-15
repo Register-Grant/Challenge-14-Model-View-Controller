@@ -4,7 +4,7 @@ const router = require("express").Router();
 router.get("/", async (req, res) => {
   try {
     const dbPostData = await BlogPost.findAll({
-      attributes: ["id", "title", "content", "created_at"],
+      attributes: ["id", "title", "content", "date_created"],
       include: [
         {
           model: Comment,
@@ -57,7 +57,7 @@ router.get("/post/:id", async (req, res) => {
       where: {
         id: req.params.id,
       },
-      attributes: ["id", "content", "title", "created_at"],
+      attributes: ["id", "content", "title", "date_created"],
       include: [
         {
           model: Comment,
@@ -100,7 +100,7 @@ router.get("/posts-comments", async (req, res) => {
         where: {
           id: req.params.id,
         },
-        attributes: ["id", "content", "title", "created_at"],
+        attributes: ["id", "content", "title", "date_created"],
         include: [
           {
             model: Comment,

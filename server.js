@@ -13,7 +13,7 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const models = require("./models");
 
 const sess = {
-  secret: "Howboutthemgators",
+  secret: "How Bout Them Gators",
   cookie: {},
   resave: false,
   saveUninitialized: true,
@@ -34,7 +34,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 // app.use(routes);
 
+require('./models');
+
 app.listen(PORT, () => {
   console.log(`Application can hear you on ${PORT}`);
-  sequelizeConnection.sync({ force: true }); //maybe change to false
+  sequelizeConnection.sync({ force: true }).then(() => require('./seeds')) //maybe change to false
 });

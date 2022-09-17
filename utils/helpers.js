@@ -1,3 +1,4 @@
+
 const globals = {};
 
 module.exports = {
@@ -22,7 +23,6 @@ module.exports = {
     setGlobalVar: (key, value) => {
         globals[key] = value;
         console.log('set global key: ', key, ' to value: ', value);
-        // return 'set global key';
     },
     getGlobalVar: key => {
         const value = globals[key];

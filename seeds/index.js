@@ -51,34 +51,9 @@ const comments = [
   },
 ];
 
-const plantSeeds = async () => {
+const seedDatabase = async () => {
   await User.bulkCreate(users, { individualHooks: true });
   await Post.bulkCreate(posts);
   await Comment.bulkCreate(comments);
 }
-plantSeeds();
-
-// const sequelize = require('../config/sequelizeConnection');
-// const seedBlogPost = require('./blogPostSeeds');
-// const seedComment = require('./commentSeeds');
-// const seedUser = require('./userSeeds');
-
-// console.log('seeding database');
-
-// const seedDatabase = async () => {
-//     await sequelize.sync({ force: true });
-//     console.log("\n----- DATABASE SYNCED -----\n");
-
-//     await seedBlogPost();
-//     console.log('blog post seeded');
-
-//     await seedComment();
-//     console.log('comment seeded');
-
-//     await seedUser();
-//     console.log('user seeded');
-
-//     process.exit(0);
-//   };
-
-//   seedDatabase();
+seedDatabase();

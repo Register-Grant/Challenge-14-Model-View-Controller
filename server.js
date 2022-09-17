@@ -38,5 +38,5 @@ require('./models');
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
-  sequelizeConnection.sync({ force: false })//.then(() => require('./seeds'))
+  sequelizeConnection.sync({ force: false })
 });

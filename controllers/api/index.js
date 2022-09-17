@@ -5,8 +5,6 @@ const userRoutes = require('./userRoutes.js');
 const postRoutes = require('./postRoutes');
 const commentRoutes = require('./commentRoutes');
 
-// todo: finish user routes
-// *DONE
 router.use('/user', userRoutes);
 
 router.get('/users', async (req, res) => {
@@ -14,7 +12,6 @@ router.get('/users', async (req, res) => {
     res.json(users);
 });
 
-// todo: finish post routes
 router.use('/post', postRoutes);
 
 router.get('/posts', async (req, res) => {
@@ -22,7 +19,6 @@ router.get('/posts', async (req, res) => {
     res.json(post);
 });
 
-// todo: finish comment routes
 router.use('/comment', commentRoutes);
 
 

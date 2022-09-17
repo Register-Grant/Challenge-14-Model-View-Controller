@@ -1,11 +1,8 @@
 const router = require('express').Router();
 const { Post, Comment, User } = require('../models/');
 
-// get all posts for homepage
 router.get('/', async (req, res) => {
   try {
-    // we need to get all Posts and include the User for each (change lines 8 and 9)
-    // *DONE
     const postData = await Post.findAll({
       attributes: { exclude: ['user_id', 'updatedAt'] },
       include: [
@@ -14,12 +11,8 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    // serialize the data
-    // *DONE
     const posts = postData.map(post => post.get({ plain: true }));
 
-    // we should render all the posts here
-    // *DONE
     res.render('all-posts', { 
       payload: { posts, session: req.session }
     });
@@ -29,14 +22,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-// get single post
 router.get('/post/:id', async (req, res) => {
   try {
-    // what should we pass here? we need to get some data passed via the request body (something.something.id?)
-    // change the model below, but not the findByPk method.
-    // *DONE
     const postData = await Post.findByPk(req.params.id, {
-      // helping you out with the include here, no changes necessary
       attributes: {
         exclude: ['user_id', 'updatedAt'] 
       },
@@ -59,10 +47,7 @@ router.get('/post/:id', async (req, res) => {
     });
 
     if (postData) {
-      // serialize the data
       const post = postData.get({ plain: true });
-      // which view should we render for a single-post?
-      // *DONE
       res.render('single-post', { 
         payload: { posts: [post], session: req.session }
       });
@@ -75,7 +60,6 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
-// giving you the login and signup route pieces below
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');

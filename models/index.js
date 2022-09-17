@@ -2,6 +2,8 @@ const User = require("./User");
 const Post = require("./Post");
 const Comment = require("./Comment");
 
+console.log('ran models: ', Post);
+
 User.hasMany(Post, {
   foreignKey: "user_id",
   onDelete: "CASCADE",

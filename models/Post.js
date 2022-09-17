@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelizeConnection = require("../config/sequelizeConnection");
 
-const Comment = sequelizeConnection.define(
-  "comment",
+const Post = sequelizeConnection.define(
+  "post",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -11,18 +11,14 @@ const Comment = sequelizeConnection.define(
       autoIncrement: true,
     },
 
-    content: {
-      type: Sequelize.TEXT,
+    title: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
 
-    post_id: {
-      type: Sequelize.INTEGER,
+    content: {
+      type: Sequelize.TEXT,
       allowNull: false,
-      reference: {
-        model: "Post",
-        key: "id",
-      },
     },
 
     user_id: {
@@ -39,8 +35,8 @@ const Comment = sequelizeConnection.define(
     timestamps: true,
     freezeTableName: true,
     underscored: true,
-    modelName: "comments",
+    modelName: "posts",
   }
 );
 
-module.exports = Comment;
+module.exports = Post;

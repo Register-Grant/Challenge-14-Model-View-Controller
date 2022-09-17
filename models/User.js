@@ -37,9 +37,10 @@ const User = sequelizeConnection.define(
   }
 );
 
-User.beforeCreate(async (user) => {
+User.beforeCreate(async user => {
+  const userData = user.dataValues;
   console.log('intercepted data: ', user);
-  user.password = await bcrypt.hash(user.password, 10);
+  userData.password = await bcrypt.hash(userData.password, 10);
 });
 
 module.exports = User;

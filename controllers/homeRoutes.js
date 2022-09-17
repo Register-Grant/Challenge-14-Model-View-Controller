@@ -1,140 +1,97 @@
-// const { User, BlogPost, Comment } = require("../models");
-// const router = require("express").Router();
+const router = require('express').Router();
+const { Post, Comment, User } = require('../models/');
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const dbPostData = await BlogPost.findAll({
-//       attributes: ["id", "title", "content", "date_created"],
-//       include: [
-//         {
-//           model: Comment,
-//           attributes: [
-//             "id",
-//             "comment_text",
-//             "post_id",
-//             "user_id",
-//           ],
-//           include: {
-//             model: User,
-//             attributes: ["username"],
-//           },
-//         },
-//         {
-//           model: User,
-//           attributes: ["username"],
-//         },
-//       ],
-//     });
+// get all posts for homepage
+router.get('/', async (req, res) => {
+  try {
+    // we need to get all Posts and include the User for each (change lines 8 and 9)
+    // *DONE
+    const postData = await Post.findAll({
+      attributes: { exclude: ['user_id', 'updatedAt'] },
+      include: [
+        { model: User, attributes: { exclude: ['password', 'createdAt'] }},
+        { model: Comment },
+      ],
+    });
 
-//     const posts = dbPostData.map(post => post.get({ plain: true }));
-//     res.render("homepage", { posts, loggedIn: req.session.loggedIn });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
+    // serialize the data
+    // *DONE
+    const posts = postData.map(post => post.get({ plain: true }));
 
-// router.get("/login", (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect("/");
-//     return;
-//   }
-//   res.render("login");
-// });
+    // we should render all the posts here
+    // *DONE
+    res.render('all-posts', { 
+      payload: { posts, session: req.session }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
-// router.get("/signup", (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect("/");
-//     return;
-//   }
+// get single post
+router.get('/post/:id', async (req, res) => {
+  try {
+    // what should we pass here? we need to get some data passed via the request body (something.something.id?)
+    // change the model below, but not the findByPk method.
+    // *DONE
+    const postData = await Post.findByPk(req.params.id, {
+      // helping you out with the include here, no changes necessary
+      attributes: {
+        exclude: ['user_id', 'updatedAt'] 
+      },
 
-//   res.render("signup");
-// });
+      include: [
+        { 
+          model: User, 
+          attributes: { 
+            exclude: ['password', 'createdAt'] 
+          }
+        },
+        { 
+          model: Comment, 
+          include: {
+            model: User,
+            attributes: { exclude: ['password'] }
+          }
+        },
+      ],
+    });
 
-// router.get("/post/:id", async (req, res) => {
-//   try {
-//     const dbPostData = await Post.findOne({
-//       where: {
-//         id: req.params.id,
-//       },
-//       attributes: ["id", "content", "title", "date_created"],
-//       include: [
-//         {
-//           model: Comment,
-//           attributes: [
-//             "id",
-//             "comment_text",
-//             "post_id",
-//             "user_id",
-//           ],
-//           include: {
-//             model: User,
-//             attributes: ["username"],
-//           },
-//         },
-//         {
-//           model: User,
-//           attributes: ["username"],
-//         },
-//       ],
-//     });
+    if (postData) {
+      // serialize the data
+      const post = postData.get({ plain: true });
+      // which view should we render for a single-post?
+      // *DONE
+      res.render('single-post', { 
+        payload: { posts: [post], session: req.session }
+      });
+    } else {
+      res.status(404).end();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
-//     if (!dbPostData) {
-//       res.status(404).json({ message: "No post found with this id" });
-//       return;
-//     }
-//     const post = dbPostData.get({ plain: true });
-//     console.log(post);
-//     res.render("single-post", { post, loggedIn: req.session.loggedIn });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
+// giving you the login and signup route pieces below
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
 
+  res.render('login');
+});
 
-// router.get("/posts-comments", async (req, res) => {
- 
-//     try {
-//       const dbPostData = await Post.findOne({
-//         where: {
-//           id: req.params.id,
-//         },
-//         attributes: ["id", "content", "title", "date_created"],
-//         include: [
-//           {
-//             model: Comment,
-//             attributes: [
-//               "id",
-//               "comment_text",
-//               "post_id",
-//               "user_id",
-//             ],
-//             include: {
-//               model: User,
-//               attributes: ["username"],
-//             },
-//           },
-//           {
-//             model: User,
-//             attributes: ["username"],
-//           },
-//         ],
-//       });
+router.get('/signup', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
 
+  res.render('signup');
+});
 
-//       if (!dbPostData) {
-//         res.status(404).json({ message: "No post found with this id" });
-//         return;
-//       }
-//       const post = dbPostData.get({ plain: true });
-
-//       res.render("posts-comments", { post, loggedIn: req.session.loggedIn });
-//     } catch (err) {
-//       console.log(err);
-//       res.status(500).json(err);
-//     }
-  
-// });
-
-// module.exports = router;
+module.exports = router;

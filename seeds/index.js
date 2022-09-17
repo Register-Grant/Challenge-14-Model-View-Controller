@@ -1,4 +1,4 @@
-const { User, BlogPost, Comment } = require("../models");
+const { User, Post, Comment } = require("../models");
 
 const users = [
   {
@@ -15,7 +15,7 @@ const users = [
   },
 ];
 
-const blogposts = [
+const posts = [
   {
     title: "why coding is hard",
     content: "I really don't know why",
@@ -53,7 +53,7 @@ const comments = [
 
 const plantSeeds = async () => {
   await User.bulkCreate(users, { individualHooks: true });
-  await BlogPost.bulkCreate(blogposts);
+  await Post.bulkCreate(posts);
   await Comment.bulkCreate(comments);
 }
 plantSeeds();
